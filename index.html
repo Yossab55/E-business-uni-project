@@ -1,0 +1,82 @@
+<!-- in the name of Cross -->
+<!-- this should be the first thing that user see -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css"
+    />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <section class="position-relative vh-100">
+      <header class="text-center pt-5">
+        <h1>Examination System</h1>
+      </header>
+
+      <div
+        class="container-lg position-absolute top-50 start-50 translate-middle form border border-2 border-primary rounded p-3"
+      >
+        <div class="text-center">
+          <h2>Login</h2>
+          <p class="lead text-muted">
+            Please Login in so you can Take your Exam
+          </p>
+        </div>
+        <form>
+          <div class="mb-3 fs-3 ps-2">
+            <label for="username" class="form-label">Username:</label>
+
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control fs-4"
+                id="username"
+                placeholder="name@example.com"
+              />
+              <span
+                class="input-group-text tool"
+                data-bs-placement="top"
+                title="e.g Yos"
+              >
+                <i class="bi bi-question-circle"></i>
+              </span>
+            </div>
+            <label for="password" class="form-label">Password:</label>
+            <input
+              type="text"
+              class="form-control fs-4"
+              id="password"
+              placeholder="name@example.com"
+            />
+          </div>
+          <div class="row justify-content-between align-items-center mt-4 ps-2">
+            <button type="submit" class="btn btn-primary col-4 ms-3">log in</button>
+            <span class="col-4 fs-5">Don't have an account? <a href="/signup.html">Signup</a></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const ToolTips = document.querySelectorAll("tool");
+      ToolTips.forEach((t) => {
+        new bootstrap.ToolTips(t);
+      });
+    </script>
+  </body>
+</html>
