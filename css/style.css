@@ -5,6 +5,9 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.marked-question {
+  cursor: pointer;
+}
 #container {
   width: 800px;
   margin: 50px auto;

@@ -75,8 +75,12 @@ let timeLeft = 300;
 const questionBox = document.getElementById("questionBox");
 const optionsContainer = document.getElementById("optionsContainer");
 const questionCounter = document.getElementById("counter");
+const markedQuestionContainer = document.getElementById(
+  "marked-questions-container"
+);
 const timer = document.getElementById("timer");
 const markBtn = document.getElementById("markBtn");
+const flagButton = document.getElementById("flagButton");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const resultEl = document.getElementById("result");
@@ -149,11 +153,50 @@ function showResult() {
     "%).";
   resultEl.classList.remove("hidden");
 }
-markBtn.onclick = () => {
-  markedQuestions[currentQuestionIndex] =
-    !markedQuestions[currentQuestionIndex];
+markBtn.addEventListener("click", () => {
+  markedQuestions[currentQuestionIndex] = markedQuestions[currentQuestionIndex]
+    ? false
+    : true;
   loadQuestion();
-};
+});
+
+markBtn.addEventListener("click", function showMarkedQuestion() {
+  if (!markedQuestions.every((ele) => ele == false)) {
+    flagButton.classList.remove("d-none");
+  }
+});
+
+flagButton.addEventListener("click", function addQuestionsMarked() {
+  markedQuestionContainer.innerHTML = "";
+  for (let i = 0; i < markedQuestions.length; i++) {
+    if (markedQuestions[i] == true) {
+      const questionSpan = createSpanQuestion(i);
+      markedQuestionContainer.appendChild(questionSpan);
+    }
+  }
+});
+function createSpanQuestion(questionIndex) {
+  const questionSpan = document.createElement("span");
+
+  questionSpan.setAttribute("data-question-index", questionIndex);
+
+  questionSpan.setAttribute(
+    "class",
+    "list-group-item list-group-item-action marked-question"
+  );
+
+  if (currentQuestionIndex == questionIndex) {
+    questionSpan.classList.add("active");
+  }
+  questionSpan.innerText = `Question No.${questionIndex + 1}`;
+
+  questionSpan.addEventListener('click', function goTo() {
+    currentQuestionIndex = questionIndex;
+    loadQuestion();
+  } )
+
+  return questionSpan;
+}
 
 prevBtn.onclick = () => {
   if (currentQuestionIndex > 0) {
