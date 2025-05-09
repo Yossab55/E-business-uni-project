@@ -1,6 +1,8 @@
-const form = document.getElementById("signup");
+// in the name of Cross
+const form = document.getElementById("login");
 const localStorage = window.localStorage;
 const users = JSON.parse(localStorage.getItem("users")) || [];
+console.log(users)
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -19,15 +21,19 @@ form.addEventListener("submit", function (e) {
       "Invalid username. It must start with a letter and contain 2 to 15 characters, including letters, numbers, or underscores.";
     isValid = false;
   }
+  let passwordConfirmation = ''
   try {
     for (let i = 0; i < users.length; i++) {
-      if (users != null && username != users[i].username) {
+      if (users != null && username == users[i].username) {
+        passwordConfirmation = users[i].password;
+        break;
+      } else {
         throw new Error();
       }
     }
   } catch (error) {
     document.getElementById("username-error").textContent =
-      "this username is already taken login if it's you";
+      "this username doesn't exist";
     isValid = false;
   }
 
@@ -37,21 +43,20 @@ form.addEventListener("submit", function (e) {
       "Invalid password. Password must be between 6-16 characters, and include at least one lowercase letter, one uppercase letter, one number, and one special character.";
     isValid = false;
   }
+  if (password != passwordConfirmation) {
+    document.getElementById("password-error").textContent =
+      "Wrong password Try Again";
+    isValid = false;
+  }
 
   if (isValid) {
-    const data = {
-      username: username,
-      password: password,
-      permissions: false,
-    };
-    createSession();
-    users.push(data);
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Registration successful!");
-		window.location.replace('/views/exam.html')
-	}
+    createSession(password);
+    window.location.replace("../views/exam.html");
+  }
 });
 
-function createSession() {
-  window.sessionStorage.setItem("permission", false);
+function createSession(password) {
+  let permission = false;
+  if(password.includes("AdminExam101")) permission = true;
+  window.sessionStorage.setItem("permission", permission);
 }
