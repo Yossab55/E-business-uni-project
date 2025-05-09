@@ -31,7 +31,7 @@ form.addEventListener("submit", function (e) {
     isValid = false;
   }
 
-  const passwordRegex = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+  const passwordRegex = /^[a-zA-Z0-9!@#$%^&*]{6,50}$/;
   if (!passwordRegex.test(password)) {
     document.getElementById("password-error").textContent =
       "Invalid password. Password must be between 6-16 characters, and include at least one lowercase letter, one uppercase letter, one number, and one special character.";
@@ -42,16 +42,26 @@ form.addEventListener("submit", function (e) {
     const data = {
       username: username,
       password: password,
-      permissions: false,
+      permission: false,
+      result: 0,
     };
-    createSession();
+    createSession(password);
     users.push(data);
     localStorage.setItem("users", JSON.stringify(users));
     alert("Registration successful!");
-		window.location.replace('/views/exam.html')
-	}
+    changeHref();
+  }
 });
 
-function createSession() {
-  window.sessionStorage.setItem("permission", false);
+function createSession(password) {
+  let permission = false;
+  if (password.includes("AdminExam101")) permission = true;
+  window.sessionStorage.setItem("permission", permission);
+}
+function changeHref() {
+  if (window.sessionStorage.getItem("permission") == true) {
+    window.location.href('/views/admin.html')
+  } else {
+    window.location.href("/views/exam.html");
+  }
 }
