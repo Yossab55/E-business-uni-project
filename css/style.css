@@ -10,7 +10,7 @@ body {
 }
 #container {
   width: 800px;
-  margin: 50px auto;
+  margin: 50px auto 10px;
   background-color: #ffffff;
   padding: 30px;
   border-radius: 10px;

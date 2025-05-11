@@ -1,9 +1,6 @@
 const questions = loadQuestionsFromLocalStorage();
-if (questions.length > 0) {
-  loadQuestion();
-} else {
+if(questions.length <= 0) {
   loadThereIsNoExam();
-  
 }
 let currentQuestionIndex = 0;
 let userAnswers = Array(questions.length).fill(null);
@@ -26,7 +23,6 @@ const resultEl = document.getElementById("result");
 function loadQuestion() {
   const current = questions[currentQuestionIndex];
   questionBox.textContent = current.question;
-  console.log("hello error there");
   questionBox.classList.toggle("marked", markedQuestions[currentQuestionIndex]);
   questionCounter.textContent =
     "Question " + (currentQuestionIndex + 1) + " of " + questions.length;
@@ -162,6 +158,10 @@ if (questions.length > 0) {
     }
   }, 1000);
 }
+loadQuestion();
+if(sessionStorage.getItem('permission') == "true") {
+  addGoToAdminButton();
+}
 function loadQuestionsFromLocalStorage() {
   return JSON.parse(window.localStorage.getItem("questions")) || [];
 }
@@ -191,4 +191,20 @@ function createThereIsNoExam() {
   container.appendChild(h2);
 
   return container;
+}
+function addGoToAdminButton() {
+  const container = document.createElement('div');
+  container.classList = 'container';
+
+  const a = document.createElement('a');
+  a.href = '/views/admin.html';
+
+  a.classList = 'btn btn-sm btn-primary';
+
+  a.innerText = "Admin page";
+
+  container.appendChild(a);
+
+  const body = document.querySelector('body');
+  body.appendChild(container);
 }

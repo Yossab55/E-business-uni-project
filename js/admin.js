@@ -21,7 +21,7 @@ function displayQuestions() {
 
     row.innerHTML = `
             <td>${index + 1}</td>
-            <td>${question.text}</td>
+            <td>${question.question}</td>
             <td>${
               question.type === "mcq" ? "Multiple Choice" : "True/False"
             }</td>
@@ -84,7 +84,7 @@ function addQuestion() {
     }
 
     question = {
-      text: text,
+      question: text,
       type: type,
       options: options,
       correctAnswer: correctAnswer,
@@ -92,7 +92,7 @@ function addQuestion() {
   } else {
     const correctAnswer = document.getElementById("tf-answer").value;
     question = {
-      text: text,
+      question: text,
       type: type,
       correctAnswer: correctAnswer,
     };
@@ -199,7 +199,7 @@ function editQuestion(index) {
   }
 
   // Fill current data
-  document.getElementById("edit-question-text").value = question.text;
+  document.getElementById("edit-question-text").value = question.question;
   document.getElementById("edit-question-type").value = question.type;
 
   if (question.type === "mcq") {
@@ -263,7 +263,7 @@ function saveEditedQuestion() {
     }
 
     questions[editingIndex] = {
-      text: text,
+      question: text,
       type: type,
       options: options,
       correctAnswer: correctAnswer,
@@ -271,7 +271,7 @@ function saveEditedQuestion() {
   } else {
     const correctAnswer = document.getElementById("edit-tf-answer").value;
     questions[editingIndex] = {
-      text: text,
+      question: text,
       type: type,
       correctAnswer: correctAnswer,
     };
@@ -310,7 +310,7 @@ function displayQuestions() {
 
     row.innerHTML = `
     <td>${index + 1}</td>
-    <td>${question.text}</td>
+    <td>${question.question}</td>
     <td>${question.type === "mcq" ? "Multiple Choice" : "True/False"}</td>
     <td>${optionsCount}</td>
     <td>
