@@ -1,30 +1,14 @@
 //# check permissions
 checkPermissions();
 
-// Questions data (can be replaced with localStorage)
-let questions = [
-  {
-    id: 1,
-    text: "What is the capital of Egypt?",
-    type: "mcq",
-    options: ["Alexandria", "Cairo", "Giza", "Aswan"],
-    correctAnswer: "2",
-  },
-  {
-    id: 2,
-    text: "The sun revolves around the Earth",
-    type: "true_false",
-    correctAnswer: "false",
-  },
-];
+let questions = loadQuestionsFromLocalStorage();
 
 function checkPermissions() {
-  const permission = sessionStorage.getItem('permission');
-  if (permission == null || permission == 'false') {
+  const permission = sessionStorage.getItem("permission");
+  if (permission == null || permission == "false") {
     window.location.replace("/index.html");
   }
 }
-
 // Display questions in the table
 function displayQuestions() {
   const tableBody = document.getElementById("questions-table");
@@ -100,7 +84,6 @@ function addQuestion() {
     }
 
     question = {
-      id: questions.length + 1,
       text: text,
       type: type,
       options: options,
@@ -109,7 +92,6 @@ function addQuestion() {
   } else {
     const correctAnswer = document.getElementById("tf-answer").value;
     question = {
-      id: questions.length + 1,
       text: text,
       type: type,
       correctAnswer: correctAnswer,
@@ -117,6 +99,7 @@ function addQuestion() {
   }
 
   questions.push(question);
+  saveQuestionOnLocalStorage();
   displayQuestions();
   hideAddQuestionForm();
   alert("Question added successfully");
@@ -126,6 +109,7 @@ function addQuestion() {
 function deleteQuestion(index) {
   if (confirm("Are you sure you want to delete this question?")) {
     questions.splice(index, 1);
+    saveQuestionOnLocalStorage();
     displayQuestions();
   }
 }
@@ -279,7 +263,6 @@ function saveEditedQuestion() {
     }
 
     questions[editingIndex] = {
-      id: questions[editingIndex].id,
       text: text,
       type: type,
       options: options,
@@ -288,13 +271,12 @@ function saveEditedQuestion() {
   } else {
     const correctAnswer = document.getElementById("edit-tf-answer").value;
     questions[editingIndex] = {
-      id: questions[editingIndex].id,
       text: text,
       type: type,
       correctAnswer: correctAnswer,
     };
   }
-
+  saveQuestionOnLocalStorage();
   displayQuestions();
   hideEditForm();
   alert("Changes saved successfully");
@@ -314,7 +296,7 @@ function hideEditForm() {
 function displayQuestions() {
   const tableBody = document.getElementById("questions-table");
   tableBody.innerHTML = "";
-
+  console.log(questions);
   questions.forEach((question, index) => {
     const row = document.createElement("tr");
 
@@ -363,3 +345,11 @@ color: #333;
 }
 `;
 document.head.appendChild(style);
+
+// control local localStorage
+function loadQuestionsFromLocalStorage() {
+  return JSON.parse(window.localStorage.getItem("questions")) || [];
+}
+function saveQuestionOnLocalStorage() {
+  window.localStorage.setItem("questions", JSON.stringify(questions));
+}
