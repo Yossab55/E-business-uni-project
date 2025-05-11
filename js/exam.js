@@ -1,5 +1,10 @@
 const questions = loadQuestionsFromLocalStorage();
-
+if (questions.length > 0) {
+  loadQuestion();
+} else {
+  loadThereIsNoExam();
+  
+}
 let currentQuestionIndex = 0;
 let userAnswers = Array(questions.length).fill(null);
 let markedQuestions = Array(questions.length).fill(false);
@@ -21,6 +26,7 @@ const resultEl = document.getElementById("result");
 function loadQuestion() {
   const current = questions[currentQuestionIndex];
   questionBox.textContent = current.question;
+  console.log("hello error there");
   questionBox.classList.toggle("marked", markedQuestions[currentQuestionIndex]);
   questionCounter.textContent =
     "Question " + (currentQuestionIndex + 1) + " of " + questions.length;
@@ -138,27 +144,51 @@ prevBtn.onclick = () => {
   }
 };
 
-const timerInterval = setInterval(() => {
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-  timer.textContent =
-    "Time Left: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-  timeLeft--;
-  if (timeLeft < 0) {
-    clearInterval(timerInterval);
-    alert("Time's up! Exam submitted.");
-    showResult();
-    nextBtn.disabled = true;
-    prevBtn.disabled = true;
-    markBtn.disabled = true;
-    submitBtn.disabled = true;
-  }
-}, 1000);
-
+if (questions.length > 0) {
+  const timerInterval = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timer.textContent =
+      "Time Left: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    timeLeft--;
+    if (timeLeft < 0) {
+      clearInterval(timerInterval);
+      alert("Time's up! Exam submitted.");
+      showResult();
+      nextBtn.disabled = true;
+      prevBtn.disabled = true;
+      markBtn.disabled = true;
+      submitBtn.disabled = true;
+    }
+  }, 1000);
+}
 function loadQuestionsFromLocalStorage() {
   return JSON.parse(window.localStorage.getItem("questions")) || [];
 }
 function saveQuestionOnLocalStorage() {
   window.localStorage.setItem("questions", JSON.stringify(questions));
 }
-loadQuestion();
+
+function loadThereIsNoExam() {
+  const oldContainer = document.getElementById('container');
+  oldContainer.remove()
+  const body = document.querySelector("body");
+
+  const container = createThereIsNoExam();
+
+  body.append(container);
+}
+
+function createThereIsNoExam() {
+  const container = document.createElement("div");
+
+  container.setAttribute("id", "container");
+
+  const h2 = document.createElement("h2");
+
+  h2.textContent = `Be happy man, There is no test today :)`;
+
+  container.appendChild(h2);
+
+  return container;
+}
