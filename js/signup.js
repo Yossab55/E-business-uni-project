@@ -59,9 +59,10 @@ function createSession(password) {
   window.sessionStorage.setItem("permission", permission);
 }
 function changeHref() {
-  if (window.sessionStorage.getItem("permission") == true) {
-    window.location.href('/views/admin.html')
+  const permission = window.sessionStorage.getItem("permission");
+  if (permission == "true") {
+    window.location.href = '/views/admin.html'
   } else {
-    window.location.href("/views/exam.html");
+    window.location.href = "/views/exam.html";
   }
 }
